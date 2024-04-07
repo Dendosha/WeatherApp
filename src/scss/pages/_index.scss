@@ -227,26 +227,39 @@
 		font-size: rem(24);
 		font-weight: 700;
 		padding-left: rem(5);
+
+		&:not(:last-child) {
+			margin-bottom: rem(15);
+		}
 	}
 
 	// .weather-forecast__week-slider
 
 	&__week-slider {
+		cursor: pointer;
+
 		display: flex;
 		gap: rem(15);
-		padding-block: rem(10);
+		border-radius: rem(5);
 
 		overflow-x: scroll;
-		border-radius: rem(5);
 
 		&:focus-visible {
 			--clr-scrollbar-thumb: rgb(102, 99, 99);
+		}
+
+		&::-webkit-scrollbar {
+			width: 0;
+			height: 0;
 		}
 	}
 
 	// .weather-forecast__day-info
 
 	&__day-info {
+		user-select: none;
+		pointer-events: none;
+
 		flex: 1 0 90%;
 
 		border: rem(2) solid var(--clr-primary);
@@ -270,6 +283,7 @@
 		grid-area: weekday;
 
 		font-size: rem(20);
+		font-weight: 700;
 
 		&:not(:last-child) {
 			margin-bottom: rem(10);

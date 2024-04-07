@@ -1,7 +1,7 @@
 const API_KEY = '57a9686eda6f4fa3ae2124524240704'
 const LANG = 'ru'
-const CURRENT_WEATHER_REQUEST_TEMPLATE = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&lang=${LANG}&`
-const FORECAST_WEATHER_REQUEST_TEMPLATE = `http://api.weatherapi.com/v1//forecast.json?key=${API_KEY}&days=7&lang=${LANG}&`
+const CURRENT_WEATHER_REQUEST_TEMPLATE = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&lang=${LANG}&`
+const FORECAST_WEATHER_REQUEST_TEMPLATE = `https://api.weatherapi.com/v1//forecast.json?key=${API_KEY}&days=7&lang=${LANG}&`
 
 navigator.geolocation.getCurrentPosition(location => {
 	const coords = `${location.coords.latitude},${location.coords.longitude}`
@@ -12,6 +12,7 @@ const searchForm = document.forms['search-form']
 
 const forecastWeather = document.querySelector('.weather-forecast')
 const forecastSlider = document.getElementById('forecast-slider')
+
 const openForecastButton = document.getElementById('open-forecast-button')
 const openForecastButtonWrapper = openForecastButton.parentElement
 
@@ -44,6 +45,81 @@ currentWeatherUpdateButton.addEventListener('click', (e) => {
 currentWeatherUpdateButton.addEventListener('animationend', (e) => {
 	currentWeatherUpdateButton.classList.remove('--active')
 })
+
+// Forecast slider
+let forecastPointerInfo = {
+	isDown: false,
+	nextSlideIndex: 1,
+	currentX: 0,
+	childWidth: 0,
+}
+
+forecastSlider.addEventListener('pointerdown', scrollStart)
+forecastSlider.addEventListener('pointermove', scrollChange)
+forecastSlider.addEventListener('pointerup', scrollEnd)
+forecastSlider.addEventListener('pointerout', scrollEnd)
+
+forecastSlider.addEventListener('wheel', (e) => {
+	e.preventDefault()
+})
+
+function scrollStart(e) {
+	if (e.pointerType !== 'mouse') {
+		return
+	}
+
+	forecastPointerInfo.isDown = true
+	forecastPointerInfo.currentX = e.clientX + forecastSlider.scrollLeft
+	forecastPointerInfo.childWidth = forecastSlider.children[0].offsetWidth
+
+	forecastSlider.style.scrollBehavior = 'auto'
+	forecastSlider.style.cursor = 'grab'
+}
+
+function scrollChange(e) {
+	if (forecastPointerInfo.isDown) {
+		forecastSlider.scrollTo({
+			left: forecastPointerInfo.currentX - e.clientX,
+		})
+	}
+}
+
+function scrollEnd(e) {
+	if (forecastPointerInfo.isDown) {
+		const nextSlide = forecastSlider.children[forecastPointerInfo.nextSlideIndex]
+		const currentSlide = forecastSlider.children[forecastPointerInfo.nextSlideIndex - 1]
+		const previousSlide = currentSlide?.previousElementSibling
+
+		const currentOffsetLeft = currentSlide.offsetLeft - forecastSlider.offsetLeft - forecastSlider.scrollLeft
+
+		if (nextSlide && currentOffsetLeft < 0 && Math.abs(currentOffsetLeft) > nextSlide.offsetWidth / 2) {
+			nextSlide.scrollIntoView({
+				inline: "center",
+				behavior: "smooth",
+			})
+
+			forecastPointerInfo.nextSlideIndex++
+		} else if (previousSlide && currentOffsetLeft > 0 && currentOffsetLeft > previousSlide.offsetWidth / 2) {
+			previousSlide.scrollIntoView({
+				inline: "center",
+				behavior: "smooth",
+			})
+
+			forecastPointerInfo.nextSlideIndex--
+		} else {
+			currentSlide.scrollIntoView({
+				inline: "center",
+				behavior: "smooth",
+			})
+		}
+
+		console.log('end')
+
+		forecastPointerInfo.isDown = false
+		forecastSlider.style.scrollBehavior = 'smooth'
+		forecastSlider.style.cursor = 'pointer'
+	}
+}
 
 async function getWeatherInfo(location, forecastRequest) {
 	const currentWeatherQuery = await fetch(`${CURRENT_WEATHER_REQUEST_TEMPLATE}&q=${location}`)
