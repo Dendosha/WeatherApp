@@ -12,6 +12,12 @@ const searchForm = document.forms['search-form']
 
 const forecastWeather = document.querySelector('.weather-forecast')
 const forecastSlider = document.getElementById('forecast-slider')
+let forecastPointerInfo = {
+	isDown: false,
+	nextSlideIndex: 1,
+	currentX: 0,
+	childWidth: 0,
+}
 
 const openForecastButton = document.getElementById('open-forecast-button')
 const openForecastButtonWrapper = openForecastButton.parentElement
@@ -47,13 +53,6 @@ currentWeatherUpdateButton.addEventListener('animationend', (e) => {
 })
 
 // Forecast slider
-let forecastPointerInfo = {
-	isDown: false,
-	nextSlideIndex: 1,
-	currentX: 0,
-	childWidth: 0,
-}
-
 forecastSlider.addEventListener('pointerdown', scrollStart)
 forecastSlider.addEventListener('pointermove', scrollChange)
 forecastSlider.addEventListener('pointerup', scrollEnd)
@@ -147,6 +146,7 @@ async function getWeatherInfo(location, forecastRequest) {
 				left: 0,
 				behavior: "smooth",
 			})
+			forecastPointerInfo.nextSlideIndex = 1
 			forecastSlider.innerHTML = ''
 
 			forecastWeatherInfo.forecast.forecastday.forEach(forecastday => {
