@@ -2,7 +2,7 @@
 <html lang="ru">
 
 @@include('./blocks/head.html', {
-"title": "Template",
+"title": "Приложение «Погода»",
 "pageScript": "js/index.min.js",
 })
 
@@ -10,7 +10,46 @@
 	<div class="wrapper">
 		@@include('./blocks/header.html', {})
 		<main class="page">
-			<h1 style="margin-top: 5rem; text-align: center; font-size: 5rem;">Template page</h1>
+			<h1 class="page__title --visually-hidden">Погода</h1>
+			<section class="page__weather weather">
+				<div class="weather__container">
+					<form id="search-form" action="#" method="get" class="weather__search-form weather-search-form">
+						<label for="search-input" class="weather-search-form__label --visually-hidden">Поиск</label>
+						<input type="text" name="search-input" id="search-input" placeholder="Название города" required
+							class="weather-search-form__input focusable-element">
+						<button type="submit" aria-label="Поиск" class="weather-search-form__submit focusable-element"></button>
+					</form>
+
+					<div class="weather__open-forecast-button-wrapper">
+						<button id="open-forecast-button" type="button" class="weather__open-forecast-button focusable-element">
+							Показать прогноз на неделю
+						</button>
+					</div>
+
+					<div class="weather__current weather-current">
+						<div class="weather-current__wrapper">
+							<p id="current-weather-city" class="weather-current__city-name"></p>
+							<button id="current-weather-update-button" type="button" aria-label="Обновить"
+								class="weather-current__update-button"></button>
+
+							<img id="current-weather-condition-icon" src="#" alt="Состояние"
+								class="weather-current__condition-icon condition-icon">
+							<p class="weather-current__temprature temprature">
+								<span id="current-weather-temprature-value" class="weather-current__temprature-value"></span>
+								<span class="weather-current__temprature-symbol">°C</span>
+							</p>
+							<p id="current-weather-condition-text" class="weather-current__condition-text condition-text"></p>
+						</div>
+					</div>
+
+					<div class="weather__forecast weather-forecast">
+						<div class="weather-forecast__wrapper">
+							<p class="weather-forecast__text">Прогноз на неделю:</p>
+							<div id="forecast-slider" tabindex="0" class="weather-forecast__week-slider"></div>
+						</div>
+					</div>
+				</div>
+			</section>
 		</main>
 		@@include('./blocks/footer.html', {})
 	</div>

@@ -1,24 +1,30 @@
 // Scrollbar styles
-// ::-webkit-scrollbar {
-// 	width: rem(12);
-// }
+::-webkit-scrollbar {
+	width: rem(12);
+	height: rem(12);
+	background-color: var(--clr-secondary);
+	border-radius: rem(5);
+	border: rem(1) solid var(--clr-primary);
+}
 
-// ::-webkit-scrollbar-thumb {
-// 	border: rem(2) solid rgba(0, 0, 0, 0);
-// 	background-clip: padding-box;
-// 	border-radius: rem(5);
-// 	background-color: var(--accent-color);
-// }
+::-webkit-scrollbar-thumb {
+	border: rem(2) solid rgba(0, 0, 0, 0);
+	background-clip: padding-box;
+	border-radius: rem(5);
+	background-color: var(--clr-scrollbar-thumb);
 
-// ::-webkit-scrollbar-button {
-// 	width: 0;
-// 	height: 0;
-// 	display: none;
-// }
+	transition: background-color 0.3s;
+}
 
-// ::-webkit-scrollbar-corner {
-// 	background-color: transparent;
-// }
+::-webkit-scrollbar-button {
+	width: 0;
+	height: 0;
+	display: none;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
 
 // Autocomplete styles
 input:-webkit-autofill,

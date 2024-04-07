@@ -42,9 +42,10 @@ html {
 	font-weight: var(--fw-normal);
 
 	color: var(--clr-text-default);
-	background-color: var(--clr-bg);
+	background-color: var(--clr-bg-page);
 
-	scroll-behavior: smooth;
+	// scroll-behavior: smooth;
+	scrollbar-gutter: stable;
 	scroll-padding-top: initial;
 }
 

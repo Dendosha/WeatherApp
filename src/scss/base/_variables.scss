@@ -1,26 +1,27 @@
 :root {
-	// Base colors
-	--clr-bg: #2d2d2d;
+	// Primary colors
+	--clr-primary: rgb(45, 45, 45);
+
+	// Seconday colors
+	--clr-secondary: rgb(248, 248, 248);
+
+	// Background colors
+	--clr-bg-page: var(--clr-primary);
+	--clr-bg-block: rgb(255, 255, 255);
 
 	// Text colors
-	--clr-text-default: rgb(255, 255, 255);
-	// --clr-text-default-050: rgb(255, 255, 255, 0.5);
-
-	// Primary colors
-	// --clr-primary: rgb(0, 0, 0);
-	// --clr-primary-050: rgb(0, 0, 0, 0.5);
-
-	// Secondary colors
-	// --clr-secondary: rgb(0, 0, 0);
-	// --clr-secondary-050: rgb(0, 0, 0, 0.5);
+	--clr-text-default: var(--clr-primary);
 
 	// Fonts
 	--ff-primary: 'Arial', Helvetica, sans-serif;
 	--ff-secondary: 'Times New Roman', Times, serif;
 
 	--fw-normal: 400;
+
+	// Others
+	--clr-scrollbar-thumb: var(--clr-primary);
 }
 
 // Sizes
-$containerWidth: 1260;
-$containerPadding: 25;
+$containerWidth: 480;
+$containerPadding: 20;
