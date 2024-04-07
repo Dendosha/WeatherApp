@@ -182,33 +182,6 @@ h6 {
   }
 }
 
-::-webkit-scrollbar {
-  width: 0.75rem;
-  height: 0.75rem;
-  background-color: var(--clr-secondary);
-  border-radius: 0.3125rem;
-  border: 0.0625rem solid var(--clr-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  border: 0.125rem solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
-  border-radius: 0.3125rem;
-  background-color: var(--clr-scrollbar-thumb);
-  -webkit-transition: background-color 0.3s;
-  transition: background-color 0.3s;
-}
-
-::-webkit-scrollbar-button {
-  width: 0;
-  height: 0;
-  display: none;
-}
-
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -402,19 +375,32 @@ body.--burger-menu-opened {
   padding-left: 0.3125rem;
 }
 
+.weather-forecast__text:not(:last-child) {
+  margin-bottom: 0.9375rem;
+}
+
 .weather-forecast__week-slider {
+  cursor: pointer;
   display: flex;
   gap: 0.9375rem;
-  padding-block: 0.625rem;
-  overflow-x: scroll;
   border-radius: 0.3125rem;
+  overflow-x: scroll;
 }
 
 .weather-forecast__week-slider:focus-visible {
   --clr-scrollbar-thumb: rgb(102, 99, 99);
 }
 
+.weather-forecast__week-slider::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 .weather-forecast__day-info {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  pointer-events: none;
   flex: 1 0 90%;
   border: 0.125rem solid var(--clr-primary);
 }
@@ -432,6 +418,7 @@ body.--burger-menu-opened {
 .forecast-day-info__weekday {
   grid-area: weekday;
   font-size: 1.25rem;
+  font-weight: 700;
 }
 
 .forecast-day-info__weekday:not(:last-child) {
