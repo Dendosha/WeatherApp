@@ -113,8 +113,6 @@ function scrollEnd(e) {
 			})
 		}
 
-		console.log('end')
-
 		forecastPointerInfo.isDown = false
 		forecastSlider.style.scrollBehavior = 'smooth'
 		forecastSlider.style.cursor = 'pointer'
