@@ -14,6 +14,7 @@ const forecastWeather = document.querySelector('.weather-forecast')
 const forecastSlider = document.getElementById('forecast-slider')
 let forecastPointerInfo = {
 	isDown: false,
+	snapRation: 3,
 	nextSlideIndex: 1,
 	currentX: 0,
 	childWidth: 0,
@@ -38,9 +39,9 @@ searchForm.addEventListener('submit', (e) => {
 
 openForecastButton.addEventListener('click', (e) => {
 	forecastWeather.classList.toggle('--visible')
-	openForecastButton.innerText = openForecastButton.innerText === 'Показать прогноз на неделю'
-		? openForecastButton.innerText = 'Скрыть прогноз на неделю'
-		: openForecastButton.innerText = 'Показать прогноз на неделю'
+	openForecastButton.innerText = openForecastButton.innerText === 'Показать прогноз на 7 дней'
+		? openForecastButton.innerText = 'Скрыть прогноз на 7 дней'
+		: openForecastButton.innerText = 'Показать прогноз на 7 дней'
 })
 
 currentWeatherUpdateButton.addEventListener('click', (e) => {
@@ -91,14 +92,14 @@ function scrollEnd(e) {
 
 		const currentOffsetLeft = currentSlide.offsetLeft - forecastSlider.offsetLeft - forecastSlider.scrollLeft
 
-		if (nextSlide && currentOffsetLeft < 0 && Math.abs(currentOffsetLeft) > nextSlide.offsetWidth / 2) {
+		if (nextSlide && currentOffsetLeft < 0 && Math.abs(currentOffsetLeft) > nextSlide.offsetWidth / forecastPointerInfo.snapRation) {
 			nextSlide.scrollIntoView({
 				inline: "center",
 				behavior: "smooth",
 			})
 
 			forecastPointerInfo.nextSlideIndex++
-		} else if (previousSlide && currentOffsetLeft > 0 && currentOffsetLeft > previousSlide.offsetWidth / 2) {
+		} else if (previousSlide && currentOffsetLeft > 0 && currentOffsetLeft > previousSlide.offsetWidth / forecastPointerInfo.snapRation) {
 			previousSlide.scrollIntoView({
 				inline: "center",
 				behavior: "smooth",
@@ -138,9 +139,6 @@ async function getWeatherInfo(location, forecastRequest) {
 
 		if (forecastWeatherQuery.ok) {
 			const forecastWeatherInfo = await forecastWeatherQuery.json()
-			const dateIntl = Intl.DateTimeFormat('ru-RU', {
-				weekday: 'long',
-			})
 
 			forecastSlider.scrollTo({
 				left: 0,
@@ -151,14 +149,15 @@ async function getWeatherInfo(location, forecastRequest) {
 
 			forecastWeatherInfo.forecast.forecastday.forEach(forecastday => {
 				const currentDate = new Date(forecastday.date)
-				let weekday = dateIntl.format(currentDate)
+
+				let weekday = Intl.DateTimeFormat('ru-RU', { weekday: 'long', }).format(currentDate)
 				weekday = weekday[0].toUpperCase() + weekday.slice(1)
 
 				forecastSlider.insertAdjacentHTML(
 					'beforeend',
 					`
 					<div class="weather-forecast__day-info forecast-day-info">
-						<p class="forecast-day-info__weekday">${weekday}</p>
+						<p class="forecast-day-info__weekday">${weekday}, ${Intl.DateTimeFormat('ru-RU').format(currentDate)}</p>
 						<img src="${forecastday.day.condition.icon}" alt="Состояние" class="forecast-day-info__condition-icon condition-icon">
 						<p class="forecast-day-info__temprature temprature">
 							<span class="forecast-day-info__temprature-value">${Math.round(forecastday.day.avgtemp_c)}</span>
